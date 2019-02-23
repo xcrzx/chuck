@@ -3,10 +3,11 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const paths = require('./paths')
+const babelConfig = require('./babel.config')
 
 module.exports = {
   mode: 'development',
-  entry: path.join(paths.src, './entry.ts'),
+  entry: path.join(paths.src, './entry.tsx'),
   output: {
     filename: '[name].[hash:6].js',
     path: paths.dist,
@@ -25,17 +26,21 @@ module.exports = {
       },
       {
         test: /\.(jsx?|tsx?)$/,
-        loader: 'babel-loader',
         include: paths.src,
-        options: {
-          cacheDirectory: true,
+        use: {
+          loader: 'babel-loader',
+          options: babelConfig,
         },
       },
     ],
   },
   node: false,
   stats: 'errors-only',
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, './html/index.html.ejs'),
+    }),
+  ],
   devtool: 'eval-source-map',
   serve: {
     logLevel: 'warn',
