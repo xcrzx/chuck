@@ -34,7 +34,9 @@ module.exports = {
       },
     ],
   },
-  node: false,
+  node: {
+    global: true,
+  },
   stats: 'errors-only',
   plugins: [
     new HtmlWebpackPlugin({
