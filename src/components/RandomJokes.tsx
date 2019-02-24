@@ -1,37 +1,30 @@
 import React from 'react'
-import { WithStyles, withStyles, Theme } from '@material-ui/core/styles'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
+import * as R from 'ramda'
+import { connect, ResolveThunks } from 'react-redux'
 import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider'
 
-import { getRandomJokes } from '../api'
-import { Joke } from '../types'
+import { replaceRandomJokes } from '../store/randomJokes'
+import { fetchRandomJokes } from '../store/allJokes'
+import { Joke, StoreState } from '../types'
 
-const styles = (theme: Theme) => ({
-  root: {
-    width: '100%',
-    maxWidth: 640,
-  },
-  padding: {
-    padding: theme.spacing.unit,
-  },
-})
+import JokesLayout from './JokesLayout'
 
-type RandomJokesProps = WithStyles<typeof styles>
+type RandomJokesConnectProps = {
+  jokes: Joke[]
+}
+
+type RandomJokesDispatchProps = ResolveThunks<typeof mapDispatchToProps>
+
+type RandomJokesProps = RandomJokesDispatchProps & RandomJokesConnectProps
+
 type RandomJokesState = {
   isLoading: boolean
-  jokes: Joke[]
   error?: Error
 }
 
 class RandomJokes extends React.Component<RandomJokesProps, RandomJokesState> {
   state: RandomJokesState = {
     isLoading: true,
-    jokes: [],
   }
 
   componentDidMount() {
@@ -41,43 +34,44 @@ class RandomJokes extends React.Component<RandomJokesProps, RandomJokesState> {
   fetchJokes = async () => {
     this.setState({ isLoading: true, error: undefined })
     try {
-      const response = await getRandomJokes()
-      this.setState({ jokes: response.data.value })
+      const jokes = await this.props.fetchRandomJokes()
+      this.props.replaceRandomJokes(jokes.map(joke => joke.id))
     } catch (error) {
-      this.setState({ error, jokes: [] })
+      this.setState({ error })
     } finally {
       this.setState({ isLoading: false })
     }
   }
 
   render() {
-    const { classes } = this.props
-    const { jokes, error, isLoading } = this.state
+    const { jokes } = this.props
+    const { error, isLoading } = this.state
 
     return (
-      <Paper className={classes.root}>
-        {error ? (
-          <div className={classes.padding}>
-            <Typography variant="body1">{error.message}</Typography>
-          </div>
-        ) : (
-          <List>
-            {jokes.map(joke => (
-              <ListItem alignItems="flex-start" key={joke.id}>
-                <ListItemText primary={`Joke #${joke.id}`} secondary={<Typography>{joke.joke}</Typography>} />
-              </ListItem>
-            ))}
-          </List>
-        )}
-        <Divider />
-        <div className={classes.padding}>
+      <JokesLayout
+        error={error}
+        title={'Random Jokes'}
+        jokes={jokes}
+        actions={
           <Button disabled={isLoading} onClick={this.fetchJokes} size="small" color="primary">
             Fetch random jokes
           </Button>
-        </div>
-      </Paper>
+        }
+      />
     )
   }
 }
 
-export default withStyles(styles)(RandomJokes)
+const mapStateToProps = (state: StoreState) => {
+  const jokes = R.props(state.random.map(String), state.jokes)
+  return {
+    jokes,
+  }
+}
+
+const mapDispatchToProps = { fetchRandomJokes, replaceRandomJokes }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RandomJokes)
