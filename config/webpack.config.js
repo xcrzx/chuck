@@ -3,7 +3,6 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const paths = require('./paths')
-const babelConfig = require('./babel.config')
 
 module.exports = {
   mode: 'development',
@@ -29,7 +28,6 @@ module.exports = {
         include: paths.src,
         use: {
           loader: 'babel-loader',
-          options: babelConfig,
         },
       },
     ],
