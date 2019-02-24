@@ -4,8 +4,8 @@ import { connect, ResolveThunks } from 'react-redux'
 import Button from '@material-ui/core/Button'
 
 import { Joke, StoreState } from '../types'
-import { fetchJokes, fetchRandomJokes } from '../store/allJokes'
-import { addToFavorites } from '../store/favoriteJokes'
+import { fetchJokes, fetchRandomJokes } from '../store/actions/allJokes'
+import { addToFavorites } from '../store/actions/favoriteJokes'
 
 import JokesLayout from './JokesLayout'
 

@@ -3,8 +3,8 @@ import * as R from 'ramda'
 import { connect, ResolveThunks } from 'react-redux'
 import Button from '@material-ui/core/Button'
 
-import { replaceRandomJokes } from '../store/randomJokes'
-import { fetchRandomJokes } from '../store/allJokes'
+import { replaceRandomJokes } from '../store/actions/randomJokes'
+import { fetchRandomJokes } from '../store/actions/allJokes'
 import { Joke, StoreState } from '../types'
 
 import JokesLayout from './JokesLayout'

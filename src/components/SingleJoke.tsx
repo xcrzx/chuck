@@ -1,5 +1,5 @@
 import React from 'react'
-import {connect, ResolveThunks} from 'react-redux'
+import { connect, ResolveThunks } from 'react-redux'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
@@ -8,7 +8,7 @@ import StarIcon from '@material-ui/icons/Star'
 import Typography from '@material-ui/core/Typography'
 
 import { Joke, StoreState } from '../types'
-import { addToFavorites, removeFromFavorites } from '../store/favoriteJokes'
+import { addToFavorites, removeFromFavorites } from '../store/actions/favoriteJokes'
 
 type SingleJokeSelfProps = {
   joke: Joke
