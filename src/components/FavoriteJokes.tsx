@@ -48,7 +48,7 @@ class FavoriteJokes extends React.Component<FavoriteJokesProps, FavoriteJokesSta
 
 const mapStateToProps = (state: StoreState) => {
   const favorites = state.favorites
-  const jokes = R.props(favorites.map(String), state.jokes)
+  const jokes = R.props(favorites.map(String), state.jokes).filter(Boolean)
   return {
     favorites,
     jokes,

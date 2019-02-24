@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect, ResolveThunks} from 'react-redux'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
@@ -18,10 +18,7 @@ type SingleJokeConnectProps = {
   isFavorite: boolean
 }
 
-type SingleJokeDispatchProps = {
-  addToFavorites: (id: number) => void
-  removeFromFavorites: (id: number) => void
-}
+type SingleJokeDispatchProps = ResolveThunks<typeof mapDispatchToProps>
 
 type SingleJokeProps = SingleJokeSelfProps & SingleJokeConnectProps & SingleJokeDispatchProps
 

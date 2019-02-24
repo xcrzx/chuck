@@ -63,7 +63,7 @@ class RandomJokes extends React.Component<RandomJokesProps, RandomJokesState> {
 }
 
 const mapStateToProps = (state: StoreState) => {
-  const jokes = R.props(state.random.map(String), state.jokes)
+  const jokes = R.props(state.random.map(String), state.jokes).filter(Boolean)
   return {
     jokes,
   }
