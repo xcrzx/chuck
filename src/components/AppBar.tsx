@@ -10,9 +10,9 @@ const styles = {
   },
 }
 
-export interface Props extends WithStyles<typeof styles> {}
+type AppBarProps = WithStyles<typeof styles>
 
-function AppBar(props: Props) {
+const AppBar: React.FC<AppBarProps> = props => {
   const { classes } = props
 
   return (
