@@ -5,7 +5,7 @@ export const ValidationErrors = {
   forbiddenLetters: 'Password should not contain the letters i, O, or l',
   nonAlpha: 'Password should contain only lowercase alphabetic characters',
   noPairs: 'Password should contain two non-overlapping pairs of letters, like aa, bb, or cc.,',
-  noStraight: 'include straight of at least three letters, like abc, cde, and so on, up to xyz.',
+  noStraight: 'Password should include straight of at least three letters, like abc, cde, and so on, up to xyz.',
 }
 
 const hasStraight = R.pipe(
